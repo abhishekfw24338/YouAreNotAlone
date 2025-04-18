@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>You're not Alone 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      color: #333;
+      text-align: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: #d23669;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      line-height: 1.6;
+      animation: slideUp 1s ease-out;
+    }
+
+    .quote {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 1.5rem;
+      margin: 1.5rem auto;
+      border-radius: 15px;
+      font-style: italic;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transform: perspective(500px) rotateX(0deg);
+      transition: all 0.5s ease;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .quote:hover {
+      transform: perspective(500px) rotateX(5deg);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .heart {
+      font-size: 3rem;
+      animation: pulse 1.5s infinite, float 4s ease-in-out infinite;
+      margin: 2rem 0;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0;
+      animation: float-up 6s linear infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    @keyframes float-up {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-20vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    button {
+      padding: 1rem 2rem;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      color: white;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+      font-weight: 600;
+      margin-top: 1rem;
+      animation: pulse 2s infinite;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 117, 140, 0.6);
+    }
+
+    .love-card {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 80%;
+      max-width: 500px;
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 50px rgba(0,0,0,0.2);
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      background: linear-gradient(135deg, #fff1eb 0%, #ace0f9 100%);
+      text-align: center;
+    }
+
+    .love-card.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    .love-card h2 {
+      font-family: 'Dancing Script', cursive;
+      color: #d23669;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .love-card p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #d23669;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+
+    .close-btn:hover {
+      background: rgba(210, 54, 105, 0.1);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .petals {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .petal {
+      position: absolute;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0;
+      animation: falling linear infinite;
+    }
+
+    @keyframes falling {
+      0% {
+        transform: translate(0, -10%) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(70vw, 100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-hearts" id="floatingHearts"></div>
+  <div class="petals" id="petals"></div>
+
+  <div class="container">
+    <h1>You're not Alone</h1>
+    <div class="heart" onclick="showLove()">❤️</div>
+    <p>When the world feels heavy on your shoulders, remember my arms are always here to lighten your burden.</p>
+    
+    <div class="quote">
+      "Even in the darkest night, our love shines the brightest."
+    </div>
+    
+    <div class="quote">
+      "You deserve peace, love, and a life filled with happiness - and I promise to give you all of that."
+    </div>
+    
+    <div class="quote">
+      "Sometimes pausing is necessary... so life can begin again, more beautiful than before."
+    </div>
+    
+    <p>I'm just a call, a text, a heartbeat away - always here, always yours.</p>
+    
+    <button onclick="showLove()">Click to Feel My Love</button>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="love-card" id="loveCard">
+    <button class="close-btn" onclick="hideLove()">×</button>
+    <h2>My Promise</h2>
+    <p>"Aap Bilkul chinta mat karo mai hath nahi chordunga kabhi, pyaar krta hu aapse sath nahi chordunga kabhi, you are a strong woman and I know ye phase bhi aap face kr logey but is baar aap akele ni ho I am with you. Aapki saari balaye mere sir matthe lekin aapko kuch ni hone dunga."</p>
+    <div class="heart">❤️</div>
+  </div>
+
+  <audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Create floating hearts
+    function createFloatingHearts() {
+      const container = document.getElementById('floatingHearts');
+      const heartCount = 15;
+      
+      for (let i = 0; i < heartCount; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.innerHTML = '❤️';
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.animationDuration = `${4 + Math.random() * 8}s`;
+        heart.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(heart);
+      }
+    }
+
+    // Create falling petals
+    function createPetals() {
+      const container = document.getElementById('petals');
+      const petalCount = 15;
+      const petalTypes = ['🌸', '🌹', '💮', '🏵️', '🌺', '🌻', '🌼'];
+      
+      for (let i = 0; i < petalCount; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.innerHTML = petalTypes[Math.floor(Math.random() * petalTypes.length)];
+        petal.style.left = `${Math.random() * 100}%`;
+        petal.style.fontSize = `${1 + Math.random() * 2}rem`;
+        petal.style.animationDuration = `${5 + Math.random() * 10}s`;
+        petal.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(petal);
+      }
+    }
+
+    function showLove() {
+      document.getElementById('loveCard').classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+    }
+
+    function hideLove() {
+      document.getElementById('loveCard').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+
+    // Close card when clicking outside
+    document.getElementById('overlay').addEventListener('click', hideLove);
+
+    // Initialize animations
+    window.onload = function() {
+      createFloatingHearts();
+      createPetals();
+      
+      // Animate quotes one by one
+      const quotes = document.querySelectorAll('.quote');
+      quotes.forEach((quote, index) => {
+        quote.style.animationDelay = `${index * 0.3}s`;
+      });
+    };
+  </script>
+</body>
+</html>
